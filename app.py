@@ -1,45 +1,50 @@
 import streamlit as st
+import tensorflow
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import StandardScaler
-import pickle
-st.title("Medical Diagnostic Prediction App ⚕️")
-st.markdown("Does the Person have Diabetes? ⚕️ ")
+import matplotlib.pyplot as plt
+from tensorflow import keras
+from tensorflow.keras.models import load_model
+from PIL import Image
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.title("Dog and Cat Classifier using TensorFlow and Keras")
+model='cats_dogs_small_2.h5'
 
-# Step1 : load the trained model
-model=open('rfc.pickle', 'rb')
-clf=pickle.load(model)
-model.close()
+# Step1: Load the keras model and the image
+model=load_model(model)
+from tensorflow.keras.preprocessing import image
+uploaded_file=st.file_uploader("Upload a cat or dog photo")
+if uploaded_file is not None:
+    file_path = uploaded_file.name
+    st.write(file_path)
+else:
+    path_in = None
 
-#step2: Get the user input from front end 
-pregs=st.slider('Pregnancies', 0, 20,0)
-glucose=st.slider('Glucose',40, 200, 40)
-bp=st.slider('BloodPressure',20, 140, 20)
-skin=st.slider('SkinThickness',7, 99, 7)
-insulin=st.slider('Insulin',14, 850,14) 
-bmi=st.slider('BMI',18, 70, 18) 
-dpf=st.slider('DiabetesPedigreeFunction',0.05, 2.50, 0.05)
-age=st.slider('Age', 21, 90, 21)
+# Step2 : get the file path 
+# if uploaded_file:
+#    st.write("Filename: ", uploaded_file.name)
 
-#step3: Convert user inout to model input
-data={
-    'Pregnancies':pregs,
-    'Glucose':glucose,
-    'BloodPressure':bp,
-    'SkinThickness':skin, 
-    'Insulin':insulin,
-    'BMI':bmi,
-    'DiabetesPedigreeFunction':dpf, 
-    'Age':age}
-input_data=pd.DataFrame([data])
+# for file in uploaded_file:
+#     file_path=uploaded_file.name
 
-# step4 : get the predictions and print the result
-prediction=clf.predict(input_data)[0]
-st.write(prediction)
+# Step 3 : Preprocess the image 
+my_image=image.load_img(file_path, target_size=(150, 150))
+my_img_arr=image.img_to_array(my_image)
+if st.checkbox("Display Image", False):
+    image=Image.open(uploaded_file)
+    st.image(image)
+my_img_arr=np.expand_dims(my_img_arr, axis=0)
+
+
+# Step4: Get the prediction and print the result
+prediction=int(model.predict(my_img_arr)[0][0])
 if st.button("Predict"):
     if prediction==0:
-        st.write("The person is Healthy")
+        st.write("Its a Cat")
     if prediction==1:
-        st.write("The person has Diabetes")
+        st.write('Its a dog')
 
-
+# image = tensorflow.keras.utils.load_img(file_path)
+# input_arr = tf.keras.utils.img_to_array(image)
+# input_arr = np.array([input_arr])  # Convert single image to a batch.
+# predictions = model.predict(input_arr)
