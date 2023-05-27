@@ -44,10 +44,11 @@ if uploaded_file:
    st.write("Filename: ", uploaded_file.name)
 
 for file in uploaded_file:
-    file_path=uploaded_file.name
+    file_path_temp=uploaded_file.name
 image_folder_path=st.text_input("Input your folder path where images are stored")
 st.write(image_folder_path)
-file_path=image_folder_path+'/'+file_path
+import os
+file_path=os.path.join(image_folder_path, file_path_temp)
 # Step 3 : Preprocess the image 
 #file_path=input("Paste the file path")
 my_image=image.load_img(file_path, target_size=(150, 150))
