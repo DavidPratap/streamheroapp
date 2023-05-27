@@ -21,7 +21,7 @@ uploaded_file = st.file_uploader(
 if uploaded_file is not None:
     file_name = uploaded_file
 else:
-    file_name = "image1.jpg "
+    file_name = "image1.jpg"
 
 # if uploaded_file is not None:
 #     file_path = uploaded_file.name
