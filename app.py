@@ -40,8 +40,8 @@ uploaded_file=st.file_uploader("Upload a cat or dog photo")
 
 
 # Step2 : get the file path 
-# if uploaded_file:
-#    st.write("Filename: ", uploaded_file.name)
+if uploaded_file:
+   st.write("Filename: ", uploaded_file.name)
 
 for file in uploaded_file:
     file_path=uploaded_file.name
