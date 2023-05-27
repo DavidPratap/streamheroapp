@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 import tensorflow
 import pandas as pd
 import numpy as np
@@ -47,7 +48,7 @@ for file in uploaded_file:
     file_path_temp=uploaded_file.name
 image_folder_path=st.text_input("Input your folder path where images are stored")
 st.write(image_folder_path)
-import os
+
 file_path=os.path.join(image_folder_path, file_path_temp)
 # Step 3 : Preprocess the image 
 #file_path=input("Paste the file path")
