@@ -15,7 +15,14 @@ model='cats_dogs_small_2.h5'
 # Step1: Load the keras model and the image
 model=load_model(model)
 
-uploaded_file=st.file_uploader("Upload a cat or dog photo")
+#uploaded_file=st.file_uploader("Upload a cat or dog photo")
+uploaded_file = st.file_uploader(
+    "Choose your database", accept_multiple_files=False)
+if uploaded_file is not None:
+    file_name = uploaded_file
+else:
+    file_name = "image1.jpg "
+
 # if uploaded_file is not None:
 #     file_path = uploaded_file.name
 #     st.write(file_path)
@@ -41,15 +48,15 @@ uploaded_file=st.file_uploader("Upload a cat or dog photo")
 
 
 # Step2 : get the file path 
-if uploaded_file:
-   st.write("Filename: ", uploaded_file.name)
+# if uploaded_file:
+#    st.write("Filename: ", uploaded_file.name)
 
-for file in uploaded_file:
-    file_path_temp=uploaded_file.name
-image_folder_path=st.text_input("Input your folder path where images are stored")
-st.write(image_folder_path)
-
-file_path=os.path.join(image_folder_path, file_path_temp)
+# for file in uploaded_file:
+#     file_path_temp=uploaded_file.name
+# image_folder_path=st.text_input("Input your folder path where images are stored")
+# st.write(image_folder_path)
+file_path=file_name
+# file_path=os.path.join(image_folder_path, file_path_temp)
 # Step 3 : Preprocess the image 
 #file_path=input("Paste the file path")
 my_image=image.load_img(file_path, target_size=(150, 150))
